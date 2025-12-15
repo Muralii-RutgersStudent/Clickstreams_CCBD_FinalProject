@@ -1,0 +1,7 @@
+pyspark==3.4.0
+delta-spark==2.4.0
+pandas
+numpy
+matplotlib
+seaborn
+setuptools

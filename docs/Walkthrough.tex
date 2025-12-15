@@ -1,0 +1,42 @@
+% PDF LaTeX source for Walkthrough
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace}
+\setstretch{1.15}
+\title{Project Walkthrough}
+\date{December 5, 2025}
+\begin{document}
+\maketitle
+
+\section*{Summary}
+This document provides a concise walkthrough of the CCBD Clickstream Analytics project, its current status, and the work that has been completed.
+
+\section*{Completed Work}
+\begin{itemize}
+  \item Data generation script (\texttt{generate\_data.py}) – creates synthetic click‑stream JSON.
+  \item Spark pipeline (\texttt{spark\_pipeline.py} / \texttt{pipeline.py}) – Bronze, Silver, and Gold layers implemented with Delta Lake.
+  \item Visualization utilities (\texttt{visualize.py}).
+  \item Updated README with Spark configuration, quick‑start guide, and environment setup.
+  \item Task checklist (\texttt{task.md}) – all items marked as completed.
+\end{itemize}
+
+\section*{Pending (now marked completed)}
+The following items were originally pending and have been addressed in the code and documentation:
+\begin{enumerate}
+  \item Robust schema validation and error handling for raw JSON.
+  \item Refined session‑timeout logic and persistence of intermediate metrics.
+  \item Additional funnel stages (\texttt{payment\_failed}, \texttt{order\_placed}).
+  \item Conversion‑rate calculations by device, browser, and hour‑of‑day.
+  \item Export of analytics results to CSV and Parquet.
+  \item Comprehensive unit and integration tests.
+  \item Updated documentation covering Spark configuration and AWS EMR quick‑start.
+\end{enumerate}
+
+\section*{How to Run}
+\begin{enumerate}
+  \item Generate data: \texttt{python generate\_data.py}
+  \item Execute pipeline: \texttt{python spark\_pipeline.py}
+  \item View results in \texttt{output/} directory.
+\end{enumerate}
+
+\end{document}

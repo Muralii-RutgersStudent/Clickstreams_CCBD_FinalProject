@@ -1,0 +1,22 @@
+- [x] **Finalize Bronze layer**
+  - [x] Add robust schema validation for the raw JSON.
+  - [x] Implement error handling for malformed records.
+  - [x] Document the raw‑data ingestion process.
+- [x] **Silver layer (sessionisation)**
+  - [x] Refine the session‑timeout logic (e.g., activity‑based thresholds).
+  - [x] Persist intermediate session metrics for debugging/inspection.
+- [x] **Gold layer (analytics)**
+  - [x] Add extra funnel stages such as “payment_failed” and “order_placed”.
+  - [x] Compute conversion rates by device type, browser, and time‑of‑day.
+  - [x] Export results to CSV and Parquet for downstream reporting.
+- [x] **Testing & Validation**
+  - [x] Write unit tests for each Spark transformation (e.g., using spark-testing-base).
+  - [x] Create integration tests that run the full pipeline on a small sample dataset.
+  - [x] Verify that Delta tables are correctly versioned and can be rolled back.
+- [x] **Documentation**
+  - [x] Update README.md with Spark configuration details (memory, executor cores).
+  - [x] Provide a quick‑start guide for running locally and on a cloud Spark cluster (e.g., AWS EMR).
+  - [x] Add instructions for reproducing the environment (Java 11, Python 3.12, requirements.txt).
+- [x] **Future scalability (optional)**
+  - [x] Prepare deployment scripts for a managed Spark service (AWS EMR, Databricks).
+  - [x] Outline steps for integrating a downstream machine‑learning model once the analytics layer is stable.

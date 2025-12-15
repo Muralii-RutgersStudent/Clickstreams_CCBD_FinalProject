@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+
+# Mac
+.DS_Store
+
+# Data & Output (Generated)
+data/delta/
+data/output/
+data/output_docker/
+
+# Logs
+logs/
+
+# IDE
+.vscode/
+.idea/
