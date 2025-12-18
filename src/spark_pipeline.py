@@ -10,9 +10,7 @@ import os
 import shutil
 from delta import *
 
-# ---------------------------------------------------------------------------
-# Spark Session initialization with Delta support
-# ---------------------------------------------------------------------------
+
 import sys
 
 # 1. Unset SPARK_HOME if it's set to a broken path
@@ -34,9 +32,7 @@ builder = SparkSession.builder \
 # 4. Use configure_spark_with_delta_pip to handle Delta Lake dependencies automatically
 spark = configure_spark_with_delta_pip(builder).getOrCreate()
 
-# ---------------------------------------------------------------------------
-# Paths
-# ---------------------------------------------------------------------------
+
 BASE_DIR = os.getcwd()
 RAW_DATA_PATH = os.path.join(BASE_DIR, "data/clickstream_data.json")
 BRONZE_PATH = os.path.join(BASE_DIR, "data/delta/bronze")
@@ -44,9 +40,6 @@ SILVER_PATH = os.path.join(BASE_DIR, "data/delta/silver")
 GOLD_PATH = os.path.join(BASE_DIR, "data/delta/gold")
 INTERMEDIATE_PATH = os.path.join(BASE_DIR, "data/delta/intermediate")
 
-# ---------------------------------------------------------------------------
-# Helper: robust schema validation and error handling for raw JSON
-# ---------------------------------------------------------------------------
 raw_schema = StructType([
     StructField("user_id", StringType(), False),
     StructField("event_time", StringType(), False),
@@ -77,9 +70,7 @@ def read_raw_json(path):
     )
     return good_df
 
-# ---------------------------------------------------------------------------
-# Bronze layer
-# ---------------------------------------------------------------------------
+
 def process_bronze():
     print("Processing Bronze Layer...")
     df = read_raw_json(RAW_DATA_PATH)
@@ -91,9 +82,7 @@ def process_bronze():
     df.coalesce(1).write.mode("overwrite").option("header", "true").csv(csv_path)
     print(f"Exported Bronze data to {csv_path}")
 
-# ---------------------------------------------------------------------------
-# Silver layer
-# ---------------------------------------------------------------------------
+
 def process_silver():
     print("Processing Silver Layer (Sessionisation)...")
     df = spark.read.format("delta").load(BRONZE_PATH)
@@ -113,7 +102,7 @@ def process_silver():
             (col("time_diff_seconds") > 1800) |
             (col("time_diff_seconds") > 900) |
             col("time_diff_seconds").isNull(),
-            1
+            1$
         ).otherwise(0)
     )
     df = df.withColumn("session_id", _sum("is_new_session").over(window_spec))
@@ -134,9 +123,7 @@ def process_silver():
     df.coalesce(1).write.mode("overwrite").option("header", "true").csv(csv_path)
     print(f"Exported Silver data to {csv_path}")
 
-# ---------------------------------------------------------------------------
-# Visualization Helper
-# ---------------------------------------------------------------------------
+
 def generate_plots(gold_df):
     """Generate Funnel Chart and Session Duration Distribution using Matplotlib/Seaborn."""
     print("Generating visualizations...")
@@ -179,9 +166,7 @@ def generate_plots(gold_df):
     plt.close()
     print("Saved session_duration.png")
 
-# ---------------------------------------------------------------------------
-# Gold layer
-# ---------------------------------------------------------------------------
+
 def process_gold():
     print("Processing Gold Layer (Analytics)...")
     df = spark.read.format("delta").load(SILVER_PATH)
